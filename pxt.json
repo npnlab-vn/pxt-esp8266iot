@@ -1,0 +1,24 @@
+{
+    "name": "ESP8266_IoT",
+    "version": "1.1.11",
+    "description": "ESP8266 IoT package by ELECFREAKS, CLASSROOM and Tinkercademy.",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "ESP8266.ts",
+        "_locales/zh/ESP8266_IoT-strings.json",
+        "_locales/ESP8266_IoT-strings.json",
+        "main.py"
+    ],
+    "testFiles": [
+        "tests.ts"
+    ],
+    "public": true,
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj"
+}
