@@ -11,7 +11,8 @@
         "ESP8266.ts",
         "_locales/zh/ESP8266_IoT-strings.json",
         "_locales/ESP8266_IoT-strings.json",
-        "main.py"
+        "main.py",
+        "main.ts"
     ],
     "testFiles": [
         "tests.ts"

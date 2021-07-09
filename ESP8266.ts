@@ -104,7 +104,7 @@ namespace ESP8266_IoT {
     /**
     * Connect to ThingSpeak
     */
-    //% block="1. Kết Nối ThingSpeak"
+    //% block="Kết Nối ThingSpeak"
     //% write_api_key.defl=your_write_api_key
     //% subcategory="ThingSpeak" weight=90
     export function connectThingSpeak() {
@@ -141,7 +141,7 @@ namespace ESP8266_IoT {
     /**
     * Connect to ThingSpeak and set data. 
     */
-    //% block="set data to send ThingSpeak | Write API key = %write_api_key|Field 1 = %n1||Field 2 = %n2|Field 3 = %n3|Field 4 = %n4|Field 5 = %n5|Field 6 = %n6|Field 7 = %n7|Field 8 = %n8"
+    //% block="Cấu hình dữ liệu | Write API key = %write_api_key|Field 1 = %n1||Field 2 = %n2|Field 3 = %n3|Field 4 = %n4|Field 5 = %n5|Field 6 = %n6|Field 7 = %n7|Field 8 = %n8"
     //% write_api_key.defl=your_write_api_key
     //% expandableArgumentMode="enabled"
     //% subcategory="ThingSpeak" weight=85
@@ -186,7 +186,7 @@ namespace ESP8266_IoT {
     /**
     * upload data. It would not upload anything if it failed to connect to Wifi or ThingSpeak.
     */
-    //% block="Upload data to ThingSpeak"
+    //% block="Gửi dữ liệu lên ThingSpeak"
     //% subcategory="ThingSpeak" weight=80
     export function uploadData() {
         if (thingspeak_connected) {
@@ -201,7 +201,7 @@ namespace ESP8266_IoT {
     /**
     * Wait between uploads
     */
-    //% block="Wait %delay ms"
+    //% block="Đợi kết nối %delay ms"
     //% delay.min=0 delay.defl=5000 weight=75
     export function wait(delay: number) {
         if (delay > 0) basic.pause(delay)
@@ -210,7 +210,7 @@ namespace ESP8266_IoT {
     /**
     * Check if ESP8266 successfully connected to Wifi
     */
-    //% block="Wifi connected %State" weight=70
+    //% block="Kết nối Wifi %State" weight=70
     export function wifiState(state: boolean) {
         if (wifi_connected == state) {
             return true
@@ -223,7 +223,7 @@ namespace ESP8266_IoT {
     /**
     * Check if ESP8266 successfully connected to ThingSpeak
     */
-    //% block="ThingSpeak connected %State"
+    //% block="Kết nối ThingSpeak %State"
     //% subcategory="ThingSpeak" weight=65
     export function thingSpeakState(state: boolean) {
         if (thingspeak_connected == state) {
@@ -238,7 +238,7 @@ namespace ESP8266_IoT {
     /**
     * Check if ESP8266 successfully uploaded data to ThingSpeak
     */
-    //% block="ThingSpeak Last data upload %State"
+    //% block="Gửi dữ liệu ThingSpeak %State"
     //% subcategory="ThingSpeak" weight=60
     export function tsLastUploadState(state: boolean) {
         if (last_upload_successful == state) {
