@@ -17,7 +17,5 @@
   "ESP8266_IoT.wait|block": "Wait %delay ms",
   "ESP8266_IoT.wifiState|block": "Wifi connected %State",
   "ESP8266_IoT|block": "ESP8266_IoT",
-  "{id:category}ESP8266_IoT": "ESP8266_IoT",
-  "{id:subcategory}KidsIot": "KidsIot",
-  "{id:subcategory}ThingSpeak": "ThingSpeak"
+  "{id:category}ESP8266_IoT": "ESP8266_IoT"
 }

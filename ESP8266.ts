@@ -106,7 +106,6 @@ namespace ESP8266_IoT {
     */
     //% block="Kết Nối ThingSpeak"
     //% write_api_key.defl=your_write_api_key
-    //% subcategory="ThingSpeak" weight=90
     export function connectThingSpeak() {
         if (wifi_connected && kitsiot_connected == false) {
             thingspeak_connected = false
@@ -144,7 +143,6 @@ namespace ESP8266_IoT {
     //% block="Cấu hình dữ liệu | Write API key = %write_api_key|Field 1 = %n1||Field 2 = %n2|Field 3 = %n3|Field 4 = %n4|Field 5 = %n5|Field 6 = %n6|Field 7 = %n7|Field 8 = %n8"
     //% write_api_key.defl=your_write_api_key
     //% expandableArgumentMode="enabled"
-    //% subcategory="ThingSpeak" weight=85
     export function setData(write_api_key: string, n1: number = 0, n2: number = 0, n3: number = 0, n4: number = 0, n5: number = 0, n6: number = 0, n7: number = 0, n8: number = 0) {
             toSendStr = "GET /update?api_key="
                 + write_api_key
@@ -247,101 +245,5 @@ namespace ESP8266_IoT {
         else {
             return false
         }
-    }
-    /*-----------------------------------kitsiot---------------------------------*/
-    /**
-    * Connect to kitsiot
-    */
-    //% subcategory=KidsIot weight=55
-    //% blockId=initkitiot block="Connect KidsIot with userToken: %userToken Topic: %topic"
-    export function connectKidsiot(userToken: string, topic: string): void {
-        if (wifi_connected && thingspeak_connected == false) {
-            userToken_def = userToken
-            topic_def = topic
-            sendAT("AT+CIPSTART=\"TCP\",\"io.adafruit.com\",1883", 5000) // connect to website server
-            let text_one = "{\"topic\":\"" + topic + "\",\"userToken\":\"" + userToken + "\",\"op\":\"init\"}"
-            sendAT("AT+CIPSEND=" + (text_one.length + 2),500)
-            sendAT(text_one, 1000)
-            kitsiot_connected=true
-        }
-    }
-    /**
-    * upload data to kitsiot
-    */
-    //% subcategory=KidsIot weight=50
-    //% blockId=uploadkitsiot block="Upload data %data to kidsiot"
-    export function uploadKidsiot(data: number): void {
-        if (kitsiot_connected) {
-            data = Math.floor(data)
-            let text_one = "{\"topic\":\"" + topic_def + "\",\"userToken\":\"" + userToken_def + "\",\"op\":\"up\",\"data\":\"" + data + "\"}"
-            sendAT("AT+CIPSEND=" + (text_one.length + 2),500)
-            sendAT(text_one, 1000)
-        }
-    }
-    /**
-    * disconnect from kitsiot
-    */
-    //% subcategory=KidsIot weight=45
-    //% blockId=Disconnect block="Disconnect with kidsiot"
-    export function disconnectKidsiot(): void {
-        if (kitsiot_connected) {
-            let text_one = "{\"topic\":\"" + topic_def + "\",\"userToken\":\"" + userToken_def + "\",\"op\":\"close\"}"
-            sendAT("AT+CIPSEND=" + (text_one.length + 2),100)
-            sendAT(text_one, 0)
-            kitsiot_connected = false
-        }
-    }
-    /**
-    * Check if ESP8266 successfully connected to KidsIot
-    */
-    //% block="KidsIot connection %State"
-    //% subcategory="KidsIot" weight=40
-    export function kidsiotState(state: boolean) {
-        if (kitsiot_connected == state) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    /**
-* recevice value from kidsiot
-*/
-    //% block="When switch on"
-    //% subcategory=KidsIot weight=35
-    export function iotswitchon(handler: () => void) {
-        recevice_kitiot()
-        control.onEvent(EVENT_ON_ID, EVENT_ON_Value, handler)
-    }
-    /**
-     * recevice value from kidsiot
-     */
-    //% block="When switch off"
-    //% subcategory=KidsIot weight=30
-    export function iotswitchoff(handler: () => void) {
-        recevice_kitiot()
-        control.onEvent(EVENT_OFF_ID, EVENT_OFF_Value, handler)
-    }
-
-    export function recevice_kitiot() {
-        control.inBackground(function () {
-            while (kidsiotState) {
-                recevice_kidiot_text = serial.readLine()
-                recevice_kidiot_text += serial.readString()
-                if (recevice_kidiot_text.includes("CLOSED")) {
-                    recevice_kidiot_text = ""
-                    kitsiot_connected = false
-                }
-                if (recevice_kidiot_text.includes("switchon")) {
-                    recevice_kidiot_text = ""
-                    control.raiseEvent(EVENT_ON_ID, EVENT_ON_Value, EventCreationMode.CreateAndFire)
-                }
-                if (recevice_kidiot_text.includes("switchof")) {
-                    recevice_kidiot_text = ""
-                    control.raiseEvent(EVENT_OFF_ID, EVENT_OFF_Value, EventCreationMode.CreateAndFire)
-                }
-                basic.pause(20)
-            }
-        })
     }
 }
