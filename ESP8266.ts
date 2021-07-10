@@ -70,8 +70,8 @@ namespace ESP8266_IoT {
     */
     //% block="Kết nối Wifi SSID = %ssid|KEY = %pw"
     //% group=ESP8266
-    //% ssid.defl=Tên mạng
-    //% pw.defl=Mật khẩu weight=95
+    //% ssid.defl=Tên_Mạng
+    //% pw.defl=Mật_Khẩu weight=95
     export function connectWifi(ssid: string, pw: string) {
         wifi_connected = false
         thingspeak_connected = false
