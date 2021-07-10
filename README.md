@@ -1,10 +1,11 @@
 # ESP8266_IoT package
 
-ESP8266_IoT package is developed under the cooperation of [ELECFREAKS](https://www.elecfreaks.com/), [CLASSROOM](http://www.classroom.com.hk/) and [TINKERCADEMY](https://tinkercademy.com/).
+Thư viện ESP8266_IoT được phát triển nhằm hỗ trợ cho việc lập trình, bao gồm các tính năng chính:
+1. Kết nối với mạng Wifi
+2. Gửi dữ liệu lên server thingspeak
+Thư viện được tối ưu cho kết nối với mạch ChiPi Base Shield 
+Tài liệu hướng dẫn: [Giáo trình] Kết nối vạn vật với Microbit
 
-This package uploads data to THINGSPEAK IOT through [ESP8266 serial wifi module](http://www.elecfreaks.com/estore/esp8266-serial-wifi-module.html). 
-
-Before start, you have to register an account of [thingspeak](https://thingspeak.com/).
 
 ![](https://github.com/elecfreaks/pxt-esp8266iot/blob/master/ESP8266.png)
 
