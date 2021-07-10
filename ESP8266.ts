@@ -68,7 +68,7 @@ namespace ESP8266_IoT {
     */
     //% block="Kết nối Wifi SSID = %ssid|KEY = %pw"
     //% ssid.defl=your_ssid
-    //% pw.defl=your_pw weight=100
+    //% pw.defl=your_pw weight=95
     export function connectWifi(ssid: string, pw: string) {
         wifi_connected = false
         thingspeak_connected = false
@@ -105,7 +105,7 @@ namespace ESP8266_IoT {
     * Wait between uploads
     */
     //% block="Đợi kết nối %delay ms"
-    //% delay.min=0 delay.defl=5000 weight=100
+    //% delay.min=0 delay.defl=5000 weight=90
     export function wait(delay: number) {
         if (delay > 0) basic.pause(delay)
     }
@@ -113,7 +113,7 @@ namespace ESP8266_IoT {
     /**
     * Check if ESP8266 successfully connected to Wifi
     */
-    //% block="Kết nối Wifi %State" weight=100
+    //% block="Kết nối Wifi %State" weight=85
     export function wifiState(state: boolean) {
         if (wifi_connected == state) {
             return true
@@ -128,7 +128,7 @@ namespace ESP8266_IoT {
     */
     //% block="Kết Nối ThingSpeak"
     //% write_api_key.defl=your_write_api_key 
-    //% weight = 100
+    //% weight = 80
     export function connectThingSpeak() {
         if (wifi_connected && kitsiot_connected == false) {
             thingspeak_connected = false
@@ -165,7 +165,7 @@ namespace ESP8266_IoT {
     */
     //% block="Cấu hình dữ liệu | Write API key = %write_api_key|Field 1 = %n1||Field 2 = %n2|Field 3 = %n3|Field 4 = %n4|Field 5 = %n5|Field 6 = %n6|Field 7 = %n7|Field 8 = %n8"
     //% write_api_key.defl=your_write_api_key 
-    //% expandableArgumentMode="enabled"
+    //% expandableArgumentMode="disabled"
     //% weight = 100
     export function setData(write_api_key: string, n1: number = 0, n2: number = 0, n3: number = 0, n4: number = 0, n5: number = 0, n6: number = 0, n7: number = 0, n8: number = 0) {
         toSendStr = "GET /update?api_key="
