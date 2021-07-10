@@ -1,4 +1,5 @@
 //% color=#0fbc11 icon="\uf1eb"
+//% groups="['ESP8266', 'ThingSpeak']"
 namespace ESP8266_IoT {
     let wifi_connected: boolean = false
     let thingspeak_connected: boolean = false
