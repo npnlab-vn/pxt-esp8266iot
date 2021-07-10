@@ -132,7 +132,7 @@ namespace ESP8266_IoT {
     /**
     * Connect to ThingSpeak
     */
-    //% block="Kết Nối ThingSpeak"
+    //% block="Kết nối ThingSpeak"
     //% group=ThingSpeak
     //% write_api_key.defl=your_write_api_key 
     //% weight=80
