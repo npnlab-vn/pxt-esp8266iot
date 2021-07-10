@@ -185,7 +185,6 @@ namespace ESP8266_IoT {
     * upload data. It would not upload anything if it failed to connect to Wifi or ThingSpeak.
     */
     //% block="Gửi dữ liệu lên ThingSpeak"
-    //% subcategory="ThingSpeak" weight=80
     export function uploadData() {
         if (thingspeak_connected) {
             last_upload_successful = false
@@ -222,7 +221,6 @@ namespace ESP8266_IoT {
     * Check if ESP8266 successfully connected to ThingSpeak
     */
     //% block="Kết nối ThingSpeak %State"
-    //% subcategory="ThingSpeak" weight=65
     export function thingSpeakState(state: boolean) {
         if (thingspeak_connected == state) {
             return true
@@ -237,7 +235,6 @@ namespace ESP8266_IoT {
     * Check if ESP8266 successfully uploaded data to ThingSpeak
     */
     //% block="Gửi dữ liệu ThingSpeak %State"
-    //% subcategory="ThingSpeak" weight=60
     export function tsLastUploadState(state: boolean) {
         if (last_upload_successful == state) {
             return true
