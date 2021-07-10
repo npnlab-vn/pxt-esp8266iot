@@ -159,5 +159,30 @@ namespace ESP8266_IoT {
             //basic.pause(1000)
         }
     }
-    
+    /**
+    * Connect to ThingSpeak and set data. 
+    */
+    //% block="Cấu hình dữ liệu | Write API key = %write_api_key|Field 1 = %n1||Field 2 = %n2|Field 3 = %n3|Field 4 = %n4|Field 5 = %n5|Field 6 = %n6|Field 7 = %n7|Field 8 = %n8"
+    //% write_api_key.defl=your_write_api_key
+    //% expandableArgumentMode="enabled" weight = 75
+    export function setData(write_api_key: string, n1: number = 0, n2: number = 0, n3: number = 0, n4: number = 0, n5: number = 0, n6: number = 0, n7: number = 0, n8: number = 0) {
+        toSendStr = "GET /update?api_key="
+            + write_api_key
+            + "&field1="
+            + n1
+            + "&field2="
+            + n2
+            + "&field3="
+            + n3
+            + "&field4="
+            + n4
+            + "&field5="
+            + n5
+            + "&field6="
+            + n6
+            + "&field7="
+            + n7
+            + "&field8="
+            + n8
+    }
 }
