@@ -48,7 +48,7 @@ namespace ESP8266_IoT {
     /**
     * Initialize ESP8266 module 
     */
-    //% block="set ESP8266|RX %tx|TX %rx|Baud rate %baudrate"
+    //% block="1. set ESP8266|RX %tx|TX %rx|Baud rate %baudrate"
     //% tx.defl=SerialPin.P8
     //% rx.defl=SerialPin.P12
     //% ssid.defl=your_ssid
@@ -66,7 +66,7 @@ namespace ESP8266_IoT {
     /**
     * connect to Wifi router
     */
-    //% block="connect Wifi SSID = %ssid|KEY = %pw"
+    //% block="2. connect Wifi SSID = %ssid|KEY = %pw"
     //% ssid.defl=your_ssid
     //% pw.defl=your_pw weight=95
     export function connectWifi(ssid: string, pw: string) {
@@ -104,7 +104,7 @@ namespace ESP8266_IoT {
     /**
     * Connect to ThingSpeak
     */
-    //% block="Kết Nối ThingSpeak"
+    //% block="3. Kết Nối ThingSpeak"
     //% write_api_key.defl=your_write_api_key
     export function connectThingSpeak() {
         if (wifi_connected && kitsiot_connected == false) {
@@ -140,7 +140,7 @@ namespace ESP8266_IoT {
     /**
     * Connect to ThingSpeak and set data. 
     */
-    //% block="Cấu hình dữ liệu | Write API key = %write_api_key|Field 1 = %n1||Field 2 = %n2|Field 3 = %n3|Field 4 = %n4|Field 5 = %n5|Field 6 = %n6|Field 7 = %n7|Field 8 = %n8"
+    //% block="4. Cấu hình dữ liệu | Write API key = %write_api_key|Field 1 = %n1||Field 2 = %n2|Field 3 = %n3|Field 4 = %n4|Field 5 = %n5|Field 6 = %n6|Field 7 = %n7|Field 8 = %n8"
     //% write_api_key.defl=your_write_api_key
     //% expandableArgumentMode="enabled"
     export function setData(write_api_key: string, n1: number = 0, n2: number = 0, n3: number = 0, n4: number = 0, n5: number = 0, n6: number = 0, n7: number = 0, n8: number = 0) {
