@@ -117,8 +117,9 @@ namespace ESP8266_IoT {
     /**
     * Check if ESP8266 successfully connected to Wifi
     */
-    //% block="Kết nối Wifi %State" weight=85
+    //% block="Kết nối Wifi %State"
     //% group = "ESP8266"
+    //% weight=85
     export function wifiState(state: boolean) {
         if (wifi_connected == state) {
             return true
