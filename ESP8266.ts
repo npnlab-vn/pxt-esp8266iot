@@ -52,7 +52,7 @@ namespace ESP8266_IoT {
     //% tx.defl=SerialPin.P8
     //% rx.defl=SerialPin.P12
     //% ssid.defl=your_ssid
-    //% pw.defl=your_password weight=100
+    //% pw.defl=your_password weight=10
     export function initWIFI(tx: SerialPin, rx: SerialPin, baudrate: BaudRate) {
         serial.redirect(
             tx,
