@@ -261,14 +261,16 @@ namespace ESP8266_IoT {
             return false
         }
     }
-    //% block="Kiểm tra nút nhấn | TalkBack API key = %api_key | TalkBack ID = %id_talkback"
+    //% block="Kiểm tra nút nhấn | TalkBack ID = %id_talkback | API Key = %api_key "
     //% group=ThingSpeak
     //% write_api_key.defl=Khóa_TalkBack
     //% expandableArgumentMode="enabled"
     //% weight=55
-    export function requestButtonData(api_key: string, id_talkback: number = 0) {
+    export function requestButtonData(id_talkback: number = 0, api_key: string) {
         toSendStr = "GET //talkbacks/43609/commands.json?api_key="
             + api_key
-            
+        
+        basic.showString(api_key)
+        basic.showNumber(id_talkback)
     }
 }
