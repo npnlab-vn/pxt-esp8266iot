@@ -267,10 +267,36 @@ namespace ESP8266_IoT {
     //% expandableArgumentMode="enabled"
     //% weight=55
     export function requestButtonData(id_talkback: number = 0, api_key: string) {
+        let button_status: boolean = false
+
         toSendStr = "GET //talkbacks/43609/commands.json?api_key="
             + api_key
         
         basic.showString(api_key)
         basic.showNumber(id_talkback)
+        // sendAT("AT+CIPSEND=" + (toSendStr.length + 2), 100)
+        // sendAT(toSendStr, 100) // upload data
+        // button_status = waitHTTPResponse()
+        // basic.pause(100)
+        return button_status
+    }
+
+    function waitHTTPResponse(): boolean {
+        let serial_str: string = ""
+        let result: boolean = false
+        let time: number = input.runningTime()
+        while (true) {
+            serial_str += serial.readString()
+            if (serial_str.length > 200)
+                serial_str = serial_str.substr(serial_str.length - 200)
+            if (serial_str.includes("TOG_ON")) {
+                result = true
+                break
+            }
+            else if (input.runningTime() - time > 10000) {
+                break
+            }
+        }
+        return result
     }
 }
