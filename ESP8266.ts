@@ -329,7 +329,7 @@ namespace ESP8266_IoT {
         writeToSerial(command, waitTime)
     }
     //% weight=45
-    //% blockId="wfb_http" block="execute HTTP method %method|host: %host|port: %port|path: %urlPath||headers: %headers|body: %body"
+    //% blockId="wfb_http" block="execute HTTP host: %host|port: %port|path: %urlPath||headers: %headers|body: %body"
     export function executeHttpMethod(host: string, port: number, urlPath: string, headers?: string, body?: string): boolean {
         let myMethod: string
         let pauseBaseValue: number = 1000
