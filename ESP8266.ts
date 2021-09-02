@@ -315,6 +315,7 @@ namespace ESP8266_IoT {
                 break
             }
         }
+        basic.showString(serial_str)
         return result
     }
     function writeToSerial(data: string, waitTime: number): void {
