@@ -330,21 +330,12 @@ namespace ESP8266_IoT {
     }
     //% weight=45
     //% blockId="wfb_http" block="execute HTTP method %method|host: %host|port: %port|path: %urlPath||headers: %headers|body: %body"
-    export function executeHttpMethod(method: HttpMethod, host: string, port: number, urlPath: string, headers?: string, body?: string): boolean {
+    export function executeHttpMethod(host: string, port: number, urlPath: string, headers?: string, body?: string): boolean {
         let myMethod: string
         let pauseBaseValue: number = 1000
         let led_on: boolean = false
-        switch (method) {
-            case HttpMethod.GET: myMethod = "GET"; break;
-            case HttpMethod.POST: myMethod = "POST"; break;
-            case HttpMethod.PUT: myMethod = "PUT"; break;
-            case HttpMethod.HEAD: myMethod = "HEAD"; break;
-            case HttpMethod.DELETE: myMethod = "DELETE"; break;
-            case HttpMethod.PATCH: myMethod = "PATCH"; break;
-            case HttpMethod.OPTIONS: myMethod = "OPTIONS"; break;
-            case HttpMethod.CONNECT: myMethod = "CONNECT"; break;
-            case HttpMethod.TRACE: myMethod = "TRACE";
-        }
+        
+        myMethod = "GET"
         // Establish TCP connection:
         let data: string = "AT+CIPSTART=\"TCP\",\"" + host + "\"," + port
         writeToSerial(data, pauseBaseValue * 6)
