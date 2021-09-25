@@ -102,7 +102,7 @@ namespace ESP8266_IoT {
         kitsiot_connected = false
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 200) // connect to Wifi router
 
-        sendCMD("ssid" + ":" + pw, 200)
+        sendCMD(ssid + ":" + pw, 200)
 
         let serial_str: string = ""
         let time: number = input.runningTime()
