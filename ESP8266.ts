@@ -14,6 +14,7 @@ namespace ESP8266_IoT {
     const EVENT_OFF_Value = 210
     let toSendStr = ""
     let httpGetCmd = ""
+    
 
     export enum State {
         //% block="Success"
