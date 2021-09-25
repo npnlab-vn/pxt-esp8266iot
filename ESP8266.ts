@@ -13,6 +13,7 @@ namespace ESP8266_IoT {
     const EVENT_OFF_ID = 110
     const EVENT_OFF_Value = 210
     let toSendStr = ""
+    let httpGetCmd = ""
 
     export enum State {
         //% block="Success"
@@ -42,6 +43,11 @@ namespace ESP8266_IoT {
     // write AT command with CR+LF ending
     function sendAT(command: string, wait: number = 0) {
         serial.writeString(command + "\u000D\u000A")
+        basic.pause(wait)
+    }
+
+    function sendCMD(cmd: string, wait: number = 0){
+        serial.writeString("!" + cmd + "#")
         basic.pause(wait)
     }
 
@@ -94,7 +100,9 @@ namespace ESP8266_IoT {
         wifi_connected = false
         thingspeak_connected = false
         kitsiot_connected = false
-        sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
+        sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 200) // connect to Wifi router
+
+        sendCMD("ssid" + ":" + pw, 200)
 
         let serial_str: string = ""
         let time: number = input.runningTime()
@@ -104,6 +112,11 @@ namespace ESP8266_IoT {
                 serial_str = serial_str.substr(serial_str.length - 50)
             if (serial_str.includes("WIFI GOT IP") || serial_str.includes("OK")) {
                 serial_str=""
+                wifi_connected = true
+                break
+            }
+            if (serial_str.includes("SUCC")) {
+                serial_str = ""
                 wifi_connected = true
                 break
             }
@@ -212,6 +225,26 @@ namespace ESP8266_IoT {
             + n7
             + "&field8="
             + n8
+
+        httpGetCmd = "GET:http://api.thingspeak.com/update?api_key="
+            + write_api_key
+            + "&field1="
+            + n1
+            + "&field2="
+            + n2
+            + "&field3="
+            + n3
+            + "&field4="
+            + n4
+            + "&field5="
+            + n5
+            + "&field6="
+            + n6
+            + "&field7="
+            + n7
+            + "&field8="
+            + n8
+            + "#"
     }
     function waitUPTSResponse(): boolean {
         let serial_str: string = ""
@@ -242,7 +275,11 @@ namespace ESP8266_IoT {
             last_upload_successful = false
             sendAT("AT+CIPSEND=" + (toSendStr.length + 2), 100)
             sendAT(toSendStr, 100) // upload data
+            
+            sendCMD(httpGetCmd, 1000)
+            
             last_upload_successful = waitUPTSResponse()
+            
             basic.pause(100)
         }
     }
@@ -279,45 +316,20 @@ namespace ESP8266_IoT {
             return false
         }
     }
-    //% block="Kiểm tra nút nhấn | TalkBack ID = %id_talkback | API Key = %api_key "
+    //% block="Nút nhấn | TalkBack ID = %id_talkback | API Key = %api_key "
     //% group=ThingSpeak
     //% write_api_key.defl=Khóa_TalkBack
     //% expandableArgumentMode="enabled"
     //% weight=55
-    export function requestButtonData(id_talkback: number = 0, api_key: string) {
+    export function requestButtonData(id_talkback: number = 0, api_key: string) :boolean{
         let button_status: boolean = false
-
-        toSendStr = "GET //talkbacks/43609/commands.json?api_key="
-            + api_key
+        let url: string = ""
+        url = "/talkbacks/" +id_talkback + "/commands.json?api_key=" + api_key
         
-        basic.showString(api_key)
-        basic.showNumber(id_talkback)
-        // sendAT("AT+CIPSEND=" + (toSendStr.length + 2), 100)
-        // sendAT(toSendStr, 100) // upload data
-        // button_status = waitHTTPResponse()
-        // basic.pause(100)
+        button_status = true // executeHttpMethod("api.thingspeak.com",80, url,"","")
         return button_status
     }
 
-    function waitHTTPResponse(): boolean {
-        let serial_str: string = ""
-        let result: boolean = false
-        let time: number = input.runningTime()
-        while (true) {
-            serial_str += serial.readString()
-            if (serial_str.length > 200)
-                serial_str = serial_str.substr(serial_str.length - 200)
-            if (serial_str.includes("TOG_ON")) {
-                result = true
-                break
-            }
-            else if (input.runningTime() - time > 10000) {
-                break
-            }
-        }
-        basic.showString(serial_str)
-        return result
-    }
     function writeToSerial(data: string, waitTime: number): void {
         serial.writeString(data + "\u000D" + "\u000A")
         if (waitTime > 0) {
@@ -329,30 +341,41 @@ namespace ESP8266_IoT {
     export function executeAtCommand(command: string, waitTime: number): void {
         writeToSerial(command, waitTime)
     }
+    
     //% weight=45
     //% blockId="wfb_http" block="execute HTTP host: %host|port: %port|path: %urlPath||headers: %headers|body: %body"
-    export function executeHttpMethod(host: string, port: number, urlPath: string, headers?: string, body?: string): boolean {
+    export function executeHttpMethod(host: string, port: number, urlPath: string, headers?: string, body?: string): number {
         let myMethod: string
         let pauseBaseValue: number = 1000
-        let led_on: boolean = false
-        
+        let led_on: number = -1
+        let response: string
+
         myMethod = "GET"
         // Establish TCP connection:
         let data: string = "AT+CIPSTART=\"TCP\",\"" + host + "\"," + port
-        writeToSerial(data, pauseBaseValue * 6)
+        writeToSerial(data, pauseBaseValue * 3)
+        serial.onDataReceived(serial.delimiters(Delimiters.NewLine), function () {
+            response += serial.readString()
+        })
         data = myMethod + " " + urlPath + " HTTP/1.1" + "\u000D" + "\u000A"
             + "Host: " + host + "\u000D" + "\u000A"
-        if (headers && headers.length > 0) {
-            data += headers + "\u000D" + "\u000A"
-        }
-        if (data && data.length > 0) {
-            data += "\u000D" + "\u000A" + body + "\u000D" + "\u000A"
-        }
+   
         data += "\u000D" + "\u000A"
+        
         // Send data:
         writeToSerial("AT+CIPSEND=" + (data.length + 2), pauseBaseValue * 3)
-        writeToSerial(data, pauseBaseValue * 6)
-        led_on = waitHTTPResponse()
+        
+        response = ""
+        writeToSerial(data, pauseBaseValue * 60)
+        
+        serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => { })
+
+        if (response.includes("TOG_ON")) {
+            led_on = 1;
+        } else if (response.includes("TOG_OFF")) {
+            led_on = 0;
+        }
+
         // Close TCP connection:
         writeToSerial("AT+CIPCLOSE", pauseBaseValue * 3)
         return led_on
