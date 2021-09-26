@@ -1,5 +1,5 @@
 //% color=#0fbc11 icon="\uf1eb"
-//% groups="['ESP8266', 'ThingSpeak']"
+//% groups="['ESP8266', 'ThingSpeak', 'Adafruit']"
 namespace ESP8266_IoT {
     let wifi_connected: boolean = false
     let thingspeak_connected: boolean = false
@@ -381,4 +381,19 @@ namespace ESP8266_IoT {
         writeToSerial("AT+CIPCLOSE", pauseBaseValue * 3)
         return led_on
     }
+
+    //% block="Kết nối Adafruit | Username = %user_name | Key = %adafruit_key "
+    //% group=Adafruit
+    //% adafruit_key.defl=Khóa_Active_Key
+    //% user_name.defl=Tài_Khoản
+    //% weight=40
+    export function adafruit_setting(user_name: number = 0, adafruit_key: string): boolean {
+        let button_status: boolean = false
+        let url: string = ""
+        url = "/talkbacks/" + user_name + "/commands.json?api_key=" + adafruit_key
+
+        button_status = true
+        return button_status
+    }
+
 }
