@@ -337,63 +337,81 @@ namespace ESP8266_IoT {
             basic.pause(waitTime)
         }
     }
-    //% weight=50
-    //% blockId="wfb_at" block="execute AT command %command and then wait %waitTime ms"
-    export function executeAtCommand(command: string, waitTime: number): void {
-        writeToSerial(command, waitTime)
-    }
+    // //% weight=50
+    // //% blockId="wfb_at" block="execute AT command %command and then wait %waitTime ms"
+    // export function executeAtCommand(command: string, waitTime: number): void {
+    //     writeToSerial(command, waitTime)
+    // }
     
-    //% weight=45
-    //% blockId="wfb_http" block="execute HTTP host: %host|port: %port|path: %urlPath||headers: %headers|body: %body"
-    export function executeHttpMethod(host: string, port: number, urlPath: string, headers?: string, body?: string): number {
-        let myMethod: string
-        let pauseBaseValue: number = 1000
-        let led_on: number = -1
-        let response: string
+    // //% weight=45
+    // //% blockId="wfb_http" block="execute HTTP host: %host|port: %port|path: %urlPath||headers: %headers|body: %body"
+    // export function executeHttpMethod(host: string, port: number, urlPath: string, headers?: string, body?: string): number {
+    //     let myMethod: string
+    //     let pauseBaseValue: number = 1000
+    //     let led_on: number = -1
+    //     let response: string
 
-        myMethod = "GET"
-        // Establish TCP connection:
-        let data: string = "AT+CIPSTART=\"TCP\",\"" + host + "\"," + port
-        writeToSerial(data, pauseBaseValue * 3)
-        serial.onDataReceived(serial.delimiters(Delimiters.NewLine), function () {
-            response += serial.readString()
-        })
-        data = myMethod + " " + urlPath + " HTTP/1.1" + "\u000D" + "\u000A"
-            + "Host: " + host + "\u000D" + "\u000A"
+    //     myMethod = "GET"
+    //     // Establish TCP connection:
+    //     let data: string = "AT+CIPSTART=\"TCP\",\"" + host + "\"," + port
+    //     writeToSerial(data, pauseBaseValue * 3)
+    //     serial.onDataReceived(serial.delimiters(Delimiters.NewLine), function () {
+    //         response += serial.readString()
+    //     })
+    //     data = myMethod + " " + urlPath + " HTTP/1.1" + "\u000D" + "\u000A"
+    //         + "Host: " + host + "\u000D" + "\u000A"
    
-        data += "\u000D" + "\u000A"
+    //     data += "\u000D" + "\u000A"
         
-        // Send data:
-        writeToSerial("AT+CIPSEND=" + (data.length + 2), pauseBaseValue * 3)
+    //     // Send data:
+    //     writeToSerial("AT+CIPSEND=" + (data.length + 2), pauseBaseValue * 3)
         
-        response = ""
-        writeToSerial(data, pauseBaseValue * 60)
+    //     response = ""
+    //     writeToSerial(data, pauseBaseValue * 60)
         
-        serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => { })
+    //     serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => { })
 
-        if (response.includes("TOG_ON")) {
-            led_on = 1;
-        } else if (response.includes("TOG_OFF")) {
-            led_on = 0;
-        }
+    //     if (response.includes("TOG_ON")) {
+    //         led_on = 1;
+    //     } else if (response.includes("TOG_OFF")) {
+    //         led_on = 0;
+    //     }
 
-        // Close TCP connection:
-        writeToSerial("AT+CIPCLOSE", pauseBaseValue * 3)
-        return led_on
-    }
+    //     // Close TCP connection:
+    //     writeToSerial("AT+CIPCLOSE", pauseBaseValue * 3)
+    //     return led_on
+    // }
 
     //% block="Kết nối Adafruit | Username = %user_name | Key = %adafruit_key "
     //% group=Adafruit
     //% adafruit_key.defl=Khóa_Active_Key
     //% user_name.defl=Tài_Khoản
-    //% weight=40
-    export function adafruit_setting(user_name: number = 0, adafruit_key: string): boolean {
-        let button_status: boolean = false
+    //% weight=50
+    export function adafruit_setting(user_name: string, adafruit_key: string): void {
+        
         let url: string = ""
         url = "/talkbacks/" + user_name + "/commands.json?api_key=" + adafruit_key
 
-        button_status = true
-        return button_status
+    }
+    //% block="Gửi dữ liệu lên Adafruit | Feed = %feed_id | Value = %feed_value "
+    //% group=Adafruit
+    //% feed_id.defl=Tên_Feed
+    //% feed_value.defl=Giá_Trị
+    //% weight=45
+    export function adafruit_post(feed_id: string, feed_value: string): void {
+
+        let url: string = ""
+        url = "/talkbacks/" + feed_id + "/commands.json?api_key=" + feed_value
+    }
+
+    //% block="Kiểm tra nút nhấn trên Adafruit | Feed = %feed_id"
+    //% group=Adafruit
+    //% feed_id.defl=Tên_Feed
+    //% weight=40
+    export function adafruit_get(feed_id: string): boolean {
+        let url: string = ""
+        url = "/talkbacks/" + feed_id
+        return true;
     }
 
 }
