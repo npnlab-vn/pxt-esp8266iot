@@ -449,7 +449,7 @@ namespace ESP8266_IoT {
             if (serial_str.length > 200)
                 serial_str = serial_str.substr(serial_str.length - 200)
             if (serial_str.includes("#")) {
-                serial_str = serial_str.substr(serial_str.length - 1)
+                serial_str = serial_str.substr(0, serial_str.length - 1)
                 break
             }
             else if (input.runningTime() - time > 5000) {
