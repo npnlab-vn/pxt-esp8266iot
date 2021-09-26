@@ -404,7 +404,7 @@ namespace ESP8266_IoT {
         url = "/talkbacks/" + feed_id + "/commands.json?api_key=" + feed_value
     }
 
-    //% block="Kiểm tra nút nhấn trên Adafruit | Feed = %feed_id"
+    //% block="Nút nhấn trên Adafruit | Feed = %feed_id"
     //% group=Adafruit
     //% feed_id.defl=Tên_Feed
     //% weight=40
