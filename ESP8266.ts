@@ -325,10 +325,34 @@ namespace ESP8266_IoT {
     export function requestButtonData(id_talkback: number = 0, api_key: string) :boolean{
         let button_status: boolean = false
         let url: string = ""
-        url = "/talkbacks/" +id_talkback + "/commands.json?api_key=" + api_key
+        url = "http://api.thingspeak.com/talkbacks/" + 
+        id_talkback + "/commands.json?api_key=" + api_key
         
-        button_status = true // executeHttpMethod("api.thingspeak.com",80, url,"","")
-        return button_status
+        sendCMD(url, 500)
+        url = waitTalkBackResponse()
+        if (url.includes("LED_TOG_OFF")){
+            return true
+        }
+        return false
+    }
+
+    function waitTalkBackResponse(): string {
+        let serial_str: string = ""
+
+        let time: number = input.runningTime()
+        while (true) {
+            serial_str += serial.readString()
+            if (serial_str.length > 200)
+                serial_str = serial_str.substr(serial_str.length - 200)
+            if (serial_str.includes("#")) {
+                serial_str = serial_str.substr(serial_str.length - 1)
+                break
+            }
+            else if (input.runningTime() - time > 5000) {
+                break
+            }
+        }
+        return serial_str
     }
 
     function writeToSerial(data: string, waitTime: number): void {
@@ -389,9 +413,9 @@ namespace ESP8266_IoT {
     //% weight=50
     export function adafruit_setting(user_name: string, adafruit_key: string): void {
         
-        let url: string = ""
-        url = "/talkbacks/" + user_name + "/commands.json?api_key=" + adafruit_key
-
+        let data: string = ""
+        data = "ADA:" + user_name + ":" + adafruit_key
+        sendCMD(data, 200)
     }
     //% block="Gửi dữ liệu lên Adafruit | Feed = %feed_id | Value = %feed_value "
     //% group=Adafruit
@@ -399,19 +423,42 @@ namespace ESP8266_IoT {
     //% feed_value.defl=Giá_Trị
     //% weight=45
     export function adafruit_post(feed_id: string, feed_value: string): void {
-
-        let url: string = ""
-        url = "/talkbacks/" + feed_id + "/commands.json?api_key=" + feed_value
+        let data: string = ""
+        data = "POST_ADA:" + feed_id + ":" + feed_value
+        sendCMD(data, 200)    
+        waitUPTSResponse()
     }
 
     //% block="Nút nhấn trên Adafruit | Feed = %feed_id"
     //% group=Adafruit
     //% feed_id.defl=Tên_Feed
     //% weight=40
-    export function adafruit_get(feed_id: string): boolean {
-        let url: string = ""
-        url = "/talkbacks/" + feed_id
-        return true;
+    export function adafruit_get(feed_id: string): string {
+        let data: string = ""
+        data = "GET_ADA:" + feed_id
+        sendCMD(data, 200)
+        return waitFeedResponse();
     }
+
+    function waitFeedResponse(): string {
+        let serial_str: string = ""
+        
+        let time: number = input.runningTime()
+        while (true) {
+            serial_str += serial.readString()
+            if (serial_str.length > 200)
+                serial_str = serial_str.substr(serial_str.length - 200)
+            if (serial_str.includes("#")) {
+                serial_str = serial_str.substr(serial_str.length - 1)
+                break
+            }
+            else if (input.runningTime() - time > 5000) {
+                break
+            }
+        }
+        return serial_str
+    }
+
+    
 
 }
