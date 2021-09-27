@@ -1,5 +1,5 @@
 //% color=#0fbc11 icon="\uf1eb"
-//% groups="['ESP8266', 'ThingSpeak', 'Adafruit','Đồng Hồ Internet']"
+//% groups="['ESP8266', 'ThingSpeak', 'Adafruit','Thời gian Internet']"
 namespace ESP8266_IoT {
     let wifi_connected: boolean = false
     let thingspeak_connected: boolean = false
@@ -466,8 +466,8 @@ namespace ESP8266_IoT {
         }
         return serial_str
     }
-    //% block="Kiểm tra Đồng hồ Internet"
-    //% group='Đồng Hồ Internet'
+    //% block="Kiểm tra Thời gian Internet"
+    //% group='Thời gian Internet'
     //% weight=35
     export function request_check_clock(): void {
         let data: string = ""
@@ -491,20 +491,20 @@ namespace ESP8266_IoT {
     }
 
     //% block="Giờ Internet"
-    //% group='Đồng Hồ Internet'
+    //% group='Thời gian Internet'
     //% weight=30
     export function get_internet_clock_hour(): number {
         return internet_hour
     }
 
     //% block="Phút Internet"
-    //% group=Đồng Hồ Internet
+    //% group='Đồng hồ Internet'
     //% weight=25
     export function get_internet_clock_minute(): number {
         return internet_minute
     }
     //% block="Giây Internet"
-    //% group=Đồng Hồ Internet
+    //% group='Thời gian Internet'
     //% weight=20
     export function get_internet_clock_second(): number {
         return internet_second
