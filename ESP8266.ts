@@ -490,20 +490,20 @@ namespace ESP8266_IoT {
         }
     }
 
-    //% block="Giờ Internet"
+    //% block="Giờ"
     //% group='Thời gian Internet'
     //% weight=30
     export function get_internet_clock_hour(): number {
         return internet_hour
     }
 
-    //% block="Phút Internet"
+    //% block="Phút"
     //% group='Thời gian Internet'
     //% weight=25
     export function get_internet_clock_minute(): number {
         return internet_minute
     }
-    //% block="Giây Internet"
+    //% block="Giây"
     //% group='Thời gian Internet'
     //% weight=20
     export function get_internet_clock_second(): number {
