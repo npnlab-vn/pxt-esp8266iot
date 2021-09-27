@@ -467,7 +467,7 @@ namespace ESP8266_IoT {
         return serial_str
     }
     //% block="Kiểm tra Đồng hồ Internet"
-    //% group=Đồng Hồ Internet
+    //% group='Đồng Hồ Internet'
     //% weight=35
     export function request_check_clock(): void {
         let data: string = ""
@@ -491,7 +491,7 @@ namespace ESP8266_IoT {
     }
 
     //% block="Giờ Internet"
-    //% group=Đồng Hồ Internet
+    //% group='Đồng Hồ Internet'
     //% weight=30
     export function get_internet_clock_hour(): number {
         return internet_hour
