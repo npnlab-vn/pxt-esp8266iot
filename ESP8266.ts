@@ -211,30 +211,44 @@ namespace ESP8266_IoT {
     //% write_api_key.defl=Khóa_Write_API_Key
     //% expandableArgumentMode="enabled"
     //% weight=75
-    export function setData(write_api_key: string, n1: number = 0, n2: number = -1, n3: number = -1, n4: number = -1, n5: number = -1, n6: number = -1, n7: number = -1, n8: number = -1) {
+    export function setData(write_api_key: string, n1: number = 0, n2: number = 0, n3: number = 0, n4: number = 0, n5: number = 0, n6: number = 0, n7: number = 0, n8: number = 0) {
         toSendStr = "GET /update?api_key="
             + write_api_key
             + "&field1="
             + n1
-        if(n2 > -1){toSendStr += "&field2=" + n2}
-        if(n3 > -1){toSendStr += "&field3=" + n3}
-        if(n4 > -1){toSendStr += "&field4=" + n4}
-        if(n5 > -1){toSendStr += "&field5=" + n5}
-        if(n6 > -1){toSendStr += "&field6=" + n6}
-        if(n7 > -1){toSendStr += "&field7=" + n7}
-        if(n8 > -1){toSendStr += "&field8=" + n8}
+            + "&field2="
+            + n2
+            + "&field3="
+            + n3
+            + "&field4="
+            + n4
+            + "&field5="
+            + n5
+            + "&field6="
+            + n6
+            + "&field7="
+            + n7
+            + "&field8="
+            + n8
 
         httpGetCmd = "GET:http://api.thingspeak.com/update?api_key="
             + write_api_key
             + "&field1="
             + n1
-        if (n2 > -1) {httpGetCmd += "&field2=" + n2}
-        if (n3 > -1) {httpGetCmd += "&field3=" + n3}
-        if (n4 > -1) {httpGetCmd += "&field4=" + n4}
-        if (n5 > -1) {httpGetCmd += "&field5=" + n5}
-        if (n6 > -1) {httpGetCmd += "&field6=" + n6}
-        if (n7 > -1) {httpGetCmd += "&field7=" + n7}
-        if (n8 > -1) {httpGetCmd += "&field8=" + n8}
+            + "&field2="
+            + n2
+            + "&field3="
+            + n3
+            + "&field4="
+            + n4
+            + "&field5="
+            + n5
+            + "&field6="
+            + n6
+            + "&field7="
+            + n7
+            + "&field8="
+            + n8
     }
     function waitUPTSResponse(): boolean {
         let serial_str: string = ""
