@@ -1,5 +1,5 @@
 //% color=#0fbc11 icon="\uf1eb"
-//% groups="['ESP8266', 'ThingSpeak', 'Adafruit']"
+//% groups="['ESP8266', 'ThingSpeak', 'Adafruit','Đồng Hồ Internet']"
 namespace ESP8266_IoT {
     let wifi_connected: boolean = false
     let thingspeak_connected: boolean = false
@@ -15,6 +15,10 @@ namespace ESP8266_IoT {
     let toSendStr = ""
     let httpGetCmd = ""
     
+    let internet_hour:number = 0
+    let internet_minute: number = 0
+    let internet_second: number = 0
+
 
     export enum State {
         //% block="Success"
@@ -444,6 +448,66 @@ namespace ESP8266_IoT {
         return serial_str
     }
 
-    
+
+    function waitGETResponse(): string {
+        let serial_str: string = ""
+        
+        let time: number = input.runningTime()
+        while (true) {
+            serial_str += serial.readString()
+            if (serial_str.length > 200)
+                serial_str = serial_str.substr(serial_str.length - 200)
+            if (serial_str.includes("SEND OK")) {
+                break
+            }
+            else if (input.runningTime() - time > 10000) {
+                break
+            }
+        }
+        return serial_str
+    }
+    //% block="Kiểm tra Đồng hồ Internet"
+    //% group=Đồng Hồ Internet
+    //% weight=35
+    export function request_check_clock(): void {
+        let data: string = ""
+        data = "GET:http://www.iforce2d.net/test.php"
+        sendCMD(data, 200)
+        let response = waitGETResponse()
+        const myArr = response.split(" ")
+        let clock_data = myArr[myArr.length - 3]
+        let clock_noon = myArr[myArr.length - 2]
+
+        const clock_split = clock_data.split(":")
+        if(clock_split.length == 3){
+            internet_hour = parseInt(clock_split[0]) + 7
+            internet_minute = parseInt(clock_split[1])
+            internet_second = parseInt(clock_split[2])
+            if(clock_noon.includes("PM")){
+                internet_hour += 12
+            }
+            if(internet_hour >= 24) internet_hour -= 24
+        }
+    }
+
+    //% block="Giờ Internet"
+    //% group=Đồng Hồ Internet
+    //% weight=30
+    export function get_internet_clock_hour(): number {
+        return internet_hour
+    }
+
+    //% block="Phút Internet"
+    //% group=Đồng Hồ Internet
+    //% weight=25
+    export function get_internet_clock_minute(): number {
+        return internet_minute
+    }
+    //% block="Giây Internet"
+    //% group=Đồng Hồ Internet
+    //% weight=20
+    export function get_internet_clock_second(): number {
+        return internet_second
+    }
 
 }
