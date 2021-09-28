@@ -438,15 +438,22 @@ namespace ESP8266_IoT {
     //% weight=40
     export function adafruit_get(feed_id: string): string {
         let data: string = ""
+        let result: string = ""
         data = "GET_ADA:" + feed_id
         sendCMD(data, 200)
-        return waitFeedResponse();
+        result = waitFeedResponse();
+        if (result.length < 1){
+            sendCMD(data, 200)
+            result = waitFeedResponse();
+        }
+        return result
     }
 
     function waitFeedResponse(): string {
         let serial_str: string = ""
         
         let time: number = input.runningTime()
+        
         while (true) {
             serial_str += serial.readString()
             if (serial_str.length > 200)
