@@ -120,12 +120,12 @@ namespace ESP8266_IoT {
                 wifi_connected = true
                 break
             }
-            if (serial_str.includes("SUCC")) {
+            if (serial_str.includes("SUCC") || serial_str.includes("SUCC#")) {
                 serial_str = ""
                 wifi_connected = true
                 break
             }
-            if (serial_str.includes("FAIL")) {
+            if (serial_str.includes("FAIL") || serial_str.includes("FAIL#")) {
                 serial_str=""
                 wifi_connected = false
                 connectWifi(ssid,pw)
@@ -139,6 +139,7 @@ namespace ESP8266_IoT {
             }
         }
         basic.pause(2000)
+        serial.readString()
     }
 	/**
     * Wait between uploads
@@ -266,6 +267,8 @@ namespace ESP8266_IoT {
                 break
             }
         }
+        basic.pause(500)
+        serial.readString()
         return result
     }
     /**
@@ -355,6 +358,8 @@ namespace ESP8266_IoT {
                 break
             }
         }
+        basic.pause(500)
+        serial.readString()
         return serial_str
     }
 
@@ -466,6 +471,8 @@ namespace ESP8266_IoT {
                 break
             }
         }
+        basic.pause(500)
+        serial.readString()
         return serial_str
     }
 
@@ -485,6 +492,8 @@ namespace ESP8266_IoT {
                 break
             }
         }
+        basic.pause(500)
+        serial.readString()
         return serial_str
     }
     //% block="Kiểm tra Thời gian Internet"
