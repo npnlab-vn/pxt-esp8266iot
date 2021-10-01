@@ -514,7 +514,8 @@ namespace ESP8266_IoT {
             internet_minute = parseInt(clock_split[1])
             internet_second = parseInt(clock_split[2])
             if(clock_noon.includes("PM")){
-                internet_hour += 12
+                if(internet_hour != 7)
+                    internet_hour += 12
             }
             if(internet_hour >= 24) internet_hour -= 24
         }
