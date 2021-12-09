@@ -504,7 +504,7 @@ namespace ESP8266_IoT {
     export function request_check_clock(): void {
         let data: string = ""
         //data = "GET:http://www.iforce2d.net/test.php"
-        data = "GET:http://phuongnamserver.tk/test.php"
+        data = "GET:http://phuongnamserver.tk/time.php"
         sendCMD(data, 200)
         let response = waitGETResponse()
         const myArr = response.split(":")
