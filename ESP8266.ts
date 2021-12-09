@@ -18,7 +18,9 @@ namespace ESP8266_IoT {
     let internet_hour:number = 0
     let internet_minute: number = 0
     let internet_second: number = 0
-
+    let internet_day: number = 0
+    let internet_month:number = 0
+    let internet_year:number = 0
 
     export enum State {
         //% block="Success"
@@ -501,24 +503,35 @@ namespace ESP8266_IoT {
     //% weight=35
     export function request_check_clock(): void {
         let data: string = ""
-        data = "GET:http://www.iforce2d.net/test.php"
+        //data = "GET:http://www.iforce2d.net/test.php"
+        data = "GET:http://phuongnamserver.tk/test.php"
         sendCMD(data, 200)
         let response = waitGETResponse()
-        const myArr = response.split(" ")
-        let clock_data = myArr[myArr.length - 3]
-        let clock_noon = myArr[myArr.length - 2]
+        const myArr = response.split(":")
+        if(myArr.length == 6){
+            internet_day = parseInt(myArr[0])
+            internet_month = parseInt(myArr[1])
+            internet_year = parseInt(myArr[2])
 
-        const clock_split = clock_data.split(":")
-        if(clock_split.length == 3){
-            internet_hour = parseInt(clock_split[0]) + 7
-            internet_minute = parseInt(clock_split[1])
-            internet_second = parseInt(clock_split[2])
-            if(clock_noon.includes("PM")){
-                if(internet_hour != 7)
-                    internet_hour += 12
-            }
-            if(internet_hour >= 24) internet_hour -= 24
+            internet_hour = parseInt(myArr[3])
+            internet_minute = parseInt(myArr[4])
+            internet_second = parseInt(myArr[5])
         }
+        // const myArr = response.split(" ")
+        // let clock_data = myArr[myArr.length - 3]
+        // let clock_noon = myArr[myArr.length - 2]
+
+        // const clock_split = clock_data.split(":")
+        // if(clock_split.length == 3){
+        //     internet_hour = parseInt(clock_split[0]) + 7
+        //     internet_minute = parseInt(clock_split[1])
+        //     internet_second = parseInt(clock_split[2])
+        //     if(clock_noon.includes("PM")){
+        //         if(internet_hour != 7)
+        //             internet_hour += 12
+        //     }
+        //     if(internet_hour >= 24) internet_hour -= 24
+        // }
     }
 
     //% block="Giờ"
@@ -539,6 +552,24 @@ namespace ESP8266_IoT {
     //% weight=20
     export function get_internet_clock_second(): number {
         return internet_second
+    }
+    //% block="Ngày"
+    //% group='Thời gian Internet'
+    //% weight=15
+    export function get_internet_clock_day(): number {
+        return internet_day
+    }
+    //% block="Tháng"
+    //% group='Thời gian Internet'
+    //% weight=10
+    export function get_internet_clock_month(): number {
+        return internet_month
+    }
+    //% block="Năm"
+    //% group='Thời gian Internet'
+    //% weight=5
+    export function get_internet_clock_year(): number {
+        return internet_year
     }
 
 }
