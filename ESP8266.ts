@@ -456,6 +456,42 @@ namespace ESP8266_IoT {
         return result
     }
 
+    //% block="Dữ liệu của kênh | Feed = %feed_id"
+    //% group=Adafruit
+    //% feed_id.defl=Tên_Feed
+    //% weight=35
+    export function adafruit_get_feed(feed_id: string): string {
+        let data: string = ""
+        let result: string = ""
+        data = "GET_ADA:" + feed_id
+        sendCMD(data, 200)
+        result = waitFeedResponse();
+        if (result.length < 1) {
+            sendCMD(data, 200)
+            result = waitFeedResponse();
+        }
+        return result
+    }
+
+    //% block="Gửi cảnh báo lên Telegrame | token = %tele_token | id = %tele_id | message = %tele_message"
+    //% group=Adafruit
+    //% weight=30
+    export function telegrame_sms(tele_token: string, tele_id: string, tele_message: string): void {
+        let data: string = ""
+        let result: string = ""
+        let url: string = ""
+        url = "http://api.telegram.org/bot" + tele_token + "/sendMessage?chat_id="
+            + tele_id + "&text=" + tele_message;
+
+        data = "GET_ADA:" + url
+        sendCMD(data, 200)
+        result = waitFeedResponse();
+        if (result.length < 1) {
+            sendCMD(data, 200)
+            result = waitFeedResponse();
+        }
+    }
+
     function waitFeedResponse(): string {
         let serial_str: string = ""
         
@@ -500,7 +536,7 @@ namespace ESP8266_IoT {
     }
     //% block="Kiểm tra Thời gian Internet"
     //% group='Thời gian Internet'
-    //% weight=35
+    //% weight=25
     export function request_check_clock(): void {
         let data: string = ""
         //data = "GET:http://www.iforce2d.net/test.php"
@@ -536,38 +572,38 @@ namespace ESP8266_IoT {
 
     //% block="Giờ"
     //% group='Thời gian Internet'
-    //% weight=30
+    //% weight=20
     export function get_internet_clock_hour(): number {
         return internet_hour
     }
 
     //% block="Phút"
     //% group='Thời gian Internet'
-    //% weight=25
+    //% weight=15
     export function get_internet_clock_minute(): number {
         return internet_minute
     }
     //% block="Giây"
     //% group='Thời gian Internet'
-    //% weight=20
+    //% weight=10
     export function get_internet_clock_second(): number {
         return internet_second
     }
     //% block="Ngày"
     //% group='Thời gian Internet'
-    //% weight=15
+    //% weight=5
     export function get_internet_clock_day(): number {
         return internet_day
     }
     //% block="Tháng"
     //% group='Thời gian Internet'
-    //% weight=10
+    //% weight=0
     export function get_internet_clock_month(): number {
         return internet_month
     }
     //% block="Năm"
     //% group='Thời gian Internet'
-    //% weight=5
+    //% weight=0
     export function get_internet_clock_year(): number {
         return internet_year
     }
