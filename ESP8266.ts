@@ -482,8 +482,9 @@ namespace ESP8266_IoT {
         let url: string = ""
         url = "http://api.telegram.org/bot" + tele_token + "/sendMessage?chat_id="
             + tele_id + "&text=" + tele_message;
-
+        
         data = "GET:" + url
+        basic.showString(data);
         sendCMD(data, 200)
         result = waitFeedResponse();
         if (result.length < 1) {
