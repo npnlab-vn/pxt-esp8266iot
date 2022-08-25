@@ -483,7 +483,7 @@ namespace ESP8266_IoT {
         url = "http://api.telegram.org/bot" + tele_token + "/sendMessage?chat_id="
             + tele_id + "&text=" + tele_message;
 
-        data = "GET_ADA:" + url
+        data = "GET:" + url
         sendCMD(data, 200)
         result = waitFeedResponse();
         if (result.length < 1) {
