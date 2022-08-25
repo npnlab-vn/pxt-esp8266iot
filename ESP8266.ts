@@ -603,7 +603,7 @@ namespace ESP8266_IoT {
     }
     //% block="Năm"
     //% group='Thời gian Internet'
-    //% weight=0
+    //% weight=-5
     export function get_internet_clock_year(): number {
         return internet_year
     }
