@@ -597,13 +597,13 @@ namespace ESP8266_IoT {
     }
     //% block="Tháng"
     //% group='Thời gian Internet'
-    //% weight=0
+    //% weight=4
     export function get_internet_clock_month(): number {
         return internet_month
     }
     //% block="Năm"
     //% group='Thời gian Internet'
-    //% weight=-5
+    //% weight=3
     export function get_internet_clock_year(): number {
         return internet_year
     }
