@@ -474,7 +474,7 @@ namespace ESP8266_IoT {
     }
 
 
-    function formatUrl(url: string): string {
+    export function formatUrl(url: string): string {
         url = url.replaceAll("%", "%25");
         url = url.replaceAll(" ", "%20");
         url = url.replaceAll("!", "%21");
@@ -528,7 +528,7 @@ namespace ESP8266_IoT {
         
         tele_message = tele_message.replaceAll(" ", "%20")
         url = "http://103.170.122.203:8893/telesms?token=" + tele_token +
-            "&id=" + tele_id + "&text=" + tele_message;
+            "&id=" + tele_id + "&text=" + formatUrl(tele_message);
 
         data = "GET:" + url
         //basic.showString(data);
