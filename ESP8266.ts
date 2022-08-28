@@ -473,53 +473,6 @@ namespace ESP8266_IoT {
         return result
     }
 
-    //% block="Gửi cảnh báo lên Telegrame | token = %tele_token | id = %tele_id | message = %tele_message"
-    //% group=Adafruit
-    //% weight=30
-    export function telegrame_sms(tele_token: string, tele_id: string, tele_message: string): void {
-        let data: string = ""
-        let result: string = ""
-        let url: string = ""
-        // url = "http://api.telegram.org/bot" + tele_token + "/sendMessage?chat_id="
-        //     + tele_id + "&text=" + tele_message;
-        
-        
-
-        url = "http://103.170.122.203:8893/telesms?token=" + tele_token +
-            "&id=" + tele_id + "&text=" +tele_message;
-
-        data = "GET:" + url
-        //basic.showString(data);
-        sendCMD(data, 200)
-        result = waitFeedResponse();
-        if (result.length < 1) {
-            sendCMD(data, 200)
-            result = waitFeedResponse();
-        }
-    }
-
-    function waitFeedResponse(): string {
-        let serial_str: string = ""
-        
-        let time: number = input.runningTime()
-        
-        while (true) {
-            serial_str += serial.readString()
-            if (serial_str.length > 200)
-                serial_str = serial_str.substr(serial_str.length - 200)
-            if (serial_str.includes("#")) {
-                serial_str = serial_str.substr(0, serial_str.length - 1)
-                break
-            }
-            else if (input.runningTime() - time > 5000) {
-                break
-            }
-        }
-        basic.pause(500)
-        serial.readString()
-        return serial_str
-    }
-
 
     function formatUrl(url: string): string {
         url = url.replaceAll("%", "%25");
@@ -555,12 +508,62 @@ namespace ESP8266_IoT {
         url = url.replaceAll("|", "%7C");
         url = url.replaceAll("}", "%7D");
         url = url.replaceAll("~", "%7E");
-        url = url.replaceAll("Â","%C3%82");
-        url = url.replaceAll("Ă","%C4%82");
-        
+        url = url.replaceAll("Â", "%C3%82");
+        url = url.replaceAll("Ă", "%C4%82");
+
         return url
     }
 
+
+    //% block="Gửi cảnh báo lên Telegrame | token = %tele_token | id = %tele_id | message = %tele_message"
+    //% group=Adafruit
+    //% weight=30
+    export function telegrame_sms(tele_token: string, tele_id: string, tele_message: string): void {
+        let data: string = ""
+        let result: string = ""
+        let url: string = ""
+        // url = "http://api.telegram.org/bot" + tele_token + "/sendMessage?chat_id="
+        //     + tele_id + "&text=" + tele_message;
+        
+        
+
+        url = "http://103.170.122.203:8893/telesms?token=" + tele_token +
+            "&id=" + tele_id + "&text=" + formatUrl(tele_message);
+
+        data = "GET:" + url
+        //basic.showString(data);
+        sendCMD(data, 200)
+        result = waitFeedResponse();
+        if (result.length < 1) {
+            sendCMD(data, 200)
+            result = waitFeedResponse();
+        }
+    }
+
+    function waitFeedResponse(): string {
+        let serial_str: string = ""
+        
+        let time: number = input.runningTime()
+        
+        while (true) {
+            serial_str += serial.readString()
+            if (serial_str.length > 200)
+                serial_str = serial_str.substr(serial_str.length - 200)
+            if (serial_str.includes("#")) {
+                serial_str = serial_str.substr(0, serial_str.length - 1)
+                break
+            }
+            else if (input.runningTime() - time > 5000) {
+                break
+            }
+        }
+        basic.pause(500)
+        serial.readString()
+        return serial_str
+    }
+
+
+    
     function waitGETResponse(): string {
         let serial_str: string = ""
         
