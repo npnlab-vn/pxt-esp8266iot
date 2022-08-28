@@ -526,9 +526,9 @@ namespace ESP8266_IoT {
         //     + tele_id + "&text=" + tele_message;
         
         
-
+        tele_message = tele_message.replaceAll(" ", "%20")
         url = "http://103.170.122.203:8893/telesms?token=" + tele_token +
-            "&id=" + tele_id + "&text=" + formatUrl(tele_message);
+            "&id=" + tele_id + "&text=" + tele_message;
 
         data = "GET:" + url
         //basic.showString(data);
